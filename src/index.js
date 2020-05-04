@@ -12,6 +12,8 @@ import { createStore, applyMiddleware } from "redux";
 import promiseMiddleware from "redux-promise";
 import reduxThunk from "redux-thunk";
 
+import "materialize-css/dist/css/materialize.min.css";
+
 import Reducer from "./reducers";
 
 const createStoreWithMiddleware = applyMiddleware(
