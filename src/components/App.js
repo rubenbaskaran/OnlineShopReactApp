@@ -6,6 +6,7 @@ import Home from "./home";
 function App() {
   return (
     <div>
+      Hello world! :-)
       <Switch>
         <Route path="/about" component={About} />
         <Route path="/home" component={Home} />
