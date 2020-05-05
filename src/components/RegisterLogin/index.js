@@ -1,7 +1,50 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/user_actions";
 
 class RegisterLogin extends Component {
-  state = {};
+  state = {
+    email: "",
+    password: "",
+    errors: [],
+  };
+
+  displayErrors = (errors) => errors.map((error, i) => <p key={i}>{error}</p>);
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  submitForm = (event) => {
+    event.preventDefault();
+
+    let dataToSubmit = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    if (this.isFormvalid(this.state)) {
+      this.setState({ errors: [] });
+      this.props.dispatch(loginUser(dataToSubmit)).then((response) => {
+        if (response.payload.loginSuccess) {
+          this.props.history.push("/");
+        } else {
+          this.setState({
+            errors: this.state.errors.concat(
+              "Failed to log in, check email and password"
+            ),
+          });
+        }
+      });
+    } else {
+      this.setState({
+        errors: this.state.errors.concat("Form is not valid"),
+      });
+    }
+  };
+
+  isFormvalid = ({ email, password }) => email && password;
+
   render() {
     return (
       <div className="container">
@@ -51,6 +94,10 @@ class RegisterLogin extends Component {
               </div>
             </div>
 
+            {this.state.errors.length > 0 && (
+              <div>{this.displayErrors(this.state.errors)}</div>
+            )}
+
             <div className="row">
               <div className="col 12">
                 <button
@@ -71,4 +118,10 @@ class RegisterLogin extends Component {
   }
 }
 
-export default RegisterLogin;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(mapStateToProps)(RegisterLogin);
