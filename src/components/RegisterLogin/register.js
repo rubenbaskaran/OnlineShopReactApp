@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../actions/user_actions";
 
 class Register extends Component {
   state = {
@@ -9,6 +11,89 @@ class Register extends Component {
     password: "",
     passwordConfirmation: "",
     errors: [],
+  };
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  displayErrors = (errors) => errors.map((error, i) => <p key={i}>{error}</p>);
+
+  isFormValid = () => {
+    let errors = [];
+    let error;
+
+    if (this.isFormEmpty(this.state)) {
+      error = { message: "Fill in all fields" };
+      this.setState({ errors: errors.concat(error) });
+    } else if (!this.isPasswordValid(this.state)) {
+      error = { message: "Password is invalid" };
+      this.setState({ errors: errors.concat(error) });
+    } else {
+      return true;
+    }
+  };
+
+  isPasswordValid = ({ password, passwordConfirmation }) => {
+    if (password.length < 6 || passwordConfirmation < 6) {
+      return false;
+    } else if (password !== passwordConfirmation) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  isFormEmpty = ({
+    lastname,
+    firstname,
+    email,
+    password,
+    passwordConfirmation,
+  }) => {
+    return (
+      !firstname.length ||
+      !lastname.length ||
+      !email.length ||
+      !password.length ||
+      !passwordConfirmation.length
+    );
+  };
+
+  submitForm = (event) => {
+    event.preventDefault();
+
+    let dataToSubmit = {
+      email: this.state.email,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      password: this.state.password,
+      passwordConfirmation: this.state.passwordConfirmation,
+    };
+
+    if (this.isFormValid()) {
+      this.setState({ errors: [] });
+      this.props
+        .dispatch(registerUser(dataToSubmit))
+        .then((response) => {
+          if (response.payload.success) {
+            this.props.history.push("/login");
+          } else {
+            this.setState({
+              errors: this.state.errors.concat(
+                "your attempt to send data to DB failed"
+              ),
+            });
+          }
+        })
+        .catch((err) => {
+          this.setState({
+            errors: this.state.errors.concat(err),
+          });
+        });
+    } else {
+      console.error("Form is not valid");
+    }
   };
 
   render() {
@@ -31,7 +116,9 @@ class Register extends Component {
                   className="validate"
                 />
 
-                <label htmlFor="email">Firstname</label>
+                <label className="active" htmlFor="email">
+                  Firstname
+                </label>
                 <span
                   className="helper-text"
                   data-error="Type a right type email"
@@ -51,7 +138,9 @@ class Register extends Component {
                   className="validate"
                 />
 
-                <label htmlFor="email">Lastname</label>
+                <label className="active" htmlFor="email">
+                  Lastname
+                </label>
                 <span
                   className="helper-text"
                   data-error="Type a right type email"
@@ -71,7 +160,9 @@ class Register extends Component {
                   className="validate"
                 />
 
-                <label htmlFor="email">Email</label>
+                <label className="active" htmlFor="email">
+                  Email
+                </label>
                 <span
                   className="helper-text"
                   data-error="Type a right type email"
@@ -91,7 +182,9 @@ class Register extends Component {
                   className="validate"
                 />
 
-                <label htmlFor="password">Password</label>
+                <label className="active" htmlFor="password">
+                  Password
+                </label>
                 <span
                   className="helper-text"
                   data-error="wrong"
@@ -111,7 +204,9 @@ class Register extends Component {
                   className="validate"
                 />
 
-                <label htmlFor="password">Password Confirmation</label>
+                <label className="active" htmlFor="password">
+                  Password Confirmation
+                </label>
                 <span
                   className="helper-text"
                   data-error="wrong"
@@ -144,4 +239,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default connect()(Register);

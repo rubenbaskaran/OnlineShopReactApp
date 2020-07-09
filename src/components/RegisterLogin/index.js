@@ -66,7 +66,9 @@ class RegisterLogin extends Component {
                   className="validate"
                 />
 
-                <label htmlFor="email">Email</label>
+                <label className="active" htmlFor="email">
+                  Email
+                </label>
                 <span
                   className="helper-text"
                   data-error="Type a right type email"
@@ -86,7 +88,9 @@ class RegisterLogin extends Component {
                   className="validate"
                 />
 
-                <label htmlFor="password">Password</label>
+                <label className="active" htmlFor="password">
+                  Password
+                </label>
                 <span
                   className="helper-text"
                   data-error="wrong"
