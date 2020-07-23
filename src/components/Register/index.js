@@ -34,16 +34,6 @@ class Register extends Component {
     }
   };
 
-  isPasswordValid = ({ password, passwordConfirmation }) => {
-    if (password.length < 6 || passwordConfirmation < 6) {
-      return false;
-    } else if (password !== passwordConfirmation) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
   isFormEmpty = ({
     lastname,
     firstname,
@@ -58,6 +48,16 @@ class Register extends Component {
       !password.length ||
       !passwordConfirmation.length
     );
+  };
+
+  isPasswordValid = ({ password, passwordConfirmation }) => {
+    if (password.length < 6 || passwordConfirmation < 6) {
+      return false;
+    } else if (password !== passwordConfirmation) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   submitForm = (event) => {
