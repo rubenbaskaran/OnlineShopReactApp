@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from "./node_modules/react";
+import { connect } from "./node_modules/react-redux";
 import { loginUser } from "../../actions/user_actions";
-import { Link } from "react-router-dom";
+import { Link } from "./node_modules/react-router-dom";
 
-class RegisterLogin extends Component {
+class Login extends Component {
   state = {
     email: "",
     password: "",
@@ -139,4 +139,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(RegisterLogin);
+export default connect(mapStateToProps)(Login);

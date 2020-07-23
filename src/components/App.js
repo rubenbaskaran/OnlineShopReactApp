@@ -2,8 +2,8 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import About from "./about";
 import Home from "./home";
-import Login from "./RegisterLogin";
-import Register from "./RegisterLogin/register";
+import Login from "./login";
+import Register from "./register";
 
 function App() {
   return (
