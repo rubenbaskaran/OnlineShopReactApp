@@ -20,15 +20,14 @@ class Register extends Component {
   displayErrors = (errors) => errors.map((error, i) => <p key={i}>{error}</p>);
 
   isFormValid = () => {
-    let errors = [];
-    let error;
-
     if (this.isFormEmpty(this.state)) {
-      error = { message: "Fill in all fields" };
-      this.setState({ errors: errors.concat(error) });
+      this.setState({
+        errors: this.state.errors.concat("Fill in all fields"),
+      });
     } else if (!this.isPasswordValid(this.state)) {
-      error = { message: "Password is invalid" };
-      this.setState({ errors: errors.concat(error) });
+      this.setState({
+        errors: this.state.errors.concat("Password is invalid"),
+      });
     } else {
       return true;
     }
